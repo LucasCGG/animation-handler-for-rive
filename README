@@ -1,0 +1,39 @@
+# Rive Animation Handler
+
+Rive Animation Handler is a WordPress plugin that integrates Rive animations via a canvas element with Elementor. This plugin allows you to add Rive animations to your Elementor pages and control them using an IntersectionObserver to start the animations when they enter the viewport.
+
+## Installation
+
+1. **Download the Plugin:**
+   - Download the plugin from the [GitHub repository](https://github.com/LucasCGG/rive-animation-handler).
+
+2. **Upload the Plugin:**
+   - Go to your WordPress admin dashboard.
+   - Navigate to `Plugins` > `Add New`.
+   - Click on `Upload Plugin` and select the downloaded ZIP file.
+   - Click `Install Now` and then `Activate` the plugin.
+
+3. **Ensure Elementor is Installed:**
+   - This plugin requires Elementor to be installed and activated. If Elementor is not installed, you will see an admin notice prompting you to install and activate it.
+
+## Usage
+
+1. **Add a Rive Animation Widget:**
+   - Edit a page with Elementor.
+   - Search for the `Rive Animation` widget in the Elementor panel.
+   - Drag and drop the widget onto your page.
+
+2. **Configure the Widget:**
+   - **Canvas ID:** A unique identifier for the canvas element. This is auto-generated but can be customized.
+   - **Select Rive File:** Upload or select a `.riv` file from the media library.
+   - **State Machine Name:** The name of the state machine to control the animation. Default is `State Machine 1`.
+   - **Observer Threshold:** The threshold value for the IntersectionObserver. Default is `0.7`.
+   - **Layout Fit:** The layout fit value for the Rive animation. Options include `contain`, `cover`, `fill`, `fitWidth`, `fitHeight`, `none`, and `scaleDown`.
+
+## Parameters
+
+- **Canvas ID:** (string) The ID of the canvas element where the Rive animation will be rendered.
+- **Rive File:** (media) The `.riv` file to be used for the animation.
+- **State Machine Name:** (string) The name of the state machine to control the animation.
+- **Observer Threshold:** (number) The threshold value for the IntersectionObserver. This parameter determines how much of the canvas element must be visible in the viewport before the animation starts. A value of `0.0` means the animation will start as soon as any part of the element is visible, while a value of `1.0` means the entire element must be visible.
+- **Layout Fit:** (string) The layout fit value for the Rive animation.
