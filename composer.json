@@ -1,14 +1,19 @@
+
 {
-    "name": "lucascgg/rive-animation-handler",
-    "description": "A handler for Rive animations.",
+    "name": "lucascolaco/lucas-cgg-rive-animation-handler",
+    "description": "A WordPress plugin that integrates Rive animations with Elementor, enabling animations to start when they enter the viewport.",
     "type": "library",
     "license": "MIT",
-    "require": {
-        "php": "^8.0"
-    },
     "autoload": {
         "psr-4": {
-            "LucasCGG\\RiveAnimationHandler\\": "src/"
+            "Lucascolaco\\LucasCggRiveAnimationHandler\\": "src/"
         }
-    }
+    },
+    "authors": [
+        {
+            "name": "Lucas Gabriel Colaço",
+            "email": "colaco.lucasgabriel@gmail.com"
+        }
+    ],
+    "require": {}
 }
