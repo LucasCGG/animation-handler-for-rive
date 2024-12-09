@@ -5,6 +5,8 @@
  * Version: 1.0.0
  * Author: Lucas Colaco
  * GitHub: https://github.com/LucasCGG/rive-animation-handler
+ * License: MIT
+ * License URI: https://opensource.org/licenses/MIT
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -13,23 +15,17 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 // Define plugin constants.
 define( 'RIVE_PLUGIN_PATH', plugin_dir_path( __FILE__ ) );
-define( 'RIVE_PLUGIN_URL', plugin_dir_url( __FILE__ ) );
 
 function rive_plugin_enqueue_scripts() {
-    // Enqueue Rive Web Library
-    wp_enqueue_script('rive-web-library', 'https://unpkg.com/@rive-app/web@latest', array(), null, true);
+    // Enqueue Rive Web Library from local path
+    wp_enqueue_script('rive-web-library', plugins_url('assets/js/rive-web-library.js', __FILE__), array(), '1.0.0', true);
 
     // Enqueue the custom Rive handler script
-    wp_enqueue_script('rive-handler', RIVE_PLUGIN_URL . 'assets/js/rive-handler.js', array('rive-web-library'), null, true);
-	
-	// Add the Canvas Library
-	wp_enqueue_script(
-		'rive-js',
-		'https://unpkg.com/@rive-app/canvas@latest',
-		array(),
-		null,
-		true
-	);
+    wp_enqueue_script('rive-animation-handler', plugins_url('assets/js/rive-handler.js', __FILE__), [], '1.0.0', true);
+    wp_enqueue_script('rive-web', plugins_url('assets/js/rive-web.js', __FILE__), [], '1.0.0', true);
+    
+    // Enqueue the Canvas Library from local path
+    wp_enqueue_script('rive-js', plugins_url('assets/js/rive-js.js', __FILE__), array(), '1.0.0', true);
 }
 add_action('wp_enqueue_scripts', 'rive_plugin_enqueue_scripts');
 
@@ -60,7 +56,7 @@ function rive_check_elementor_loaded() {
 function rive_elementor_not_loaded_notice() {
     ?>
     <div class="notice notice-error">
-        <p><?php esc_html_e( 'Rive Animation Handler requires Elementor to be installed and activated.', 'rive' ); ?></p>
+        <p><?php esc_html_e( 'Rive Animation Handler requires Elementor to be installed and activated.', 'rive-animation-handler' ); ?></p>
     </div>
     <?php
 }

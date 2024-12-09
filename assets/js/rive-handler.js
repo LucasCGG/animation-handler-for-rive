@@ -14,10 +14,11 @@
  * @param {string} riveOptions.src - The full URL to the Rive animation file.
  * @param {string} riveOptions.stateMachine - The name of the state machine to control the animation.
  * @param {string} [riveOptions.layoutFit=contain] - The layout fit value for the Rive animation. Defaults to 'contain'. @documentation https://rive.app/community/doc/layout/docBl81zd1GB
+ * @param {Object} [viewport] - The viewport object.
  * @param {number} [threshold=0.7] - The threshold value for the IntersectionObserver. Defaults to 0.7.
  */
-function observeRiveAnimation(canvasId, riveOptions, threshold) {
-    const observerThreshold = threshold || riveData.threshold || 0.5;
+function observeRiveAnimation(canvasId, riveOptions, viewport, threshold) {
+    const observerThreshold = threshold || riveOptions.threshold || 0.5;
     const riveLayoutFit = riveOptions.layoutFit || 'contain';
     const riveCanvas = document.getElementById(canvasId);
 
@@ -31,8 +32,6 @@ function observeRiveAnimation(canvasId, riveOptions, threshold) {
         console.error('Invalid Rive options.');
         return;
     }
-
-    console.debug(riveOptions);
 
     if(!riveOptions.src) {
         console.error('Ensure src is provided.');
@@ -74,6 +73,7 @@ function observeRiveAnimation(canvasId, riveOptions, threshold) {
             }
         });
     }, {
+        root: viewport,
         threshold: observerThreshold,
     });
 
