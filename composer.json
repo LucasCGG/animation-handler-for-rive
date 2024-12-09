@@ -1,0 +1,14 @@
+{
+    "name": "lucascgg/rive-animation-handler",
+    "description": "A handler for Rive animations.",
+    "type": "library",
+    "license": "MIT",
+    "require": {
+        "php": "^8.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "LucasCGG\\RiveAnimationHandler\\": "src/"
+        }
+    }
+}
