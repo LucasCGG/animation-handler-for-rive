@@ -1,4 +1,4 @@
-name: PHPUnit Tests
+name: PHPUnit Tests for WordPress Plugin
 
 on:
   push:
@@ -25,16 +25,10 @@ jobs:
           extensions: mbstring, intl, dom
           tools: composer
 
-      # Step 3: Install dependencies
+      # Step 3: Install Dependencies
       - name: Install Dependencies
         run: composer install --no-interaction --prefer-dist --optimize-autoloader
 
-      # Step 4: Set up WordPress testing environment
-      - name: Set up WordPress Test Framework
-        run: |
-          wget https://raw.githubusercontent.com/wp-phpunit/wp-phpunit/master/install-wp-tests.sh
-          bash install-wp-tests.sh wordpress_test root '' localhost latest
-
-      # Step 5: Run PHPUnit
+      # Step 4: Run PHPUnit
       - name: Run PHPUnit
         run: vendor/bin/phpunit
