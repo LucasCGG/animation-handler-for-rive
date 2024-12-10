@@ -87,7 +87,7 @@ if ( class_exists( 'Elementor\Widget_Base' ) ) {
                     'step'        => 0.01,
                     'min'         => 0,
                     'max'         => 1,
-                    'description' => __( 'The threshold value for the IntersectionObserver.', 'rive-animation-handler' ),
+                    'description' => __( 'The threshold value for the IntersectionObserver. This parameter determines how much of the canvas element must be visible in the viewport before the animation starts. A value of `0.0` means the animation will start as soon as any part of the element is visible, while a value of `1.0` means the entire element must be visible', 'rive-animation-handler' ),
                 ]
             );
 
