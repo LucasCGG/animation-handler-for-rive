@@ -67,11 +67,11 @@ This plugin is dual-licensed under the MIT License. You may choose to use either
 == Screenshots ==
 
 1. Rive Animation Handler Elementor Widget Settings screen.
-   ![Screenshot 1](assets/screenshots/screenshot-1.png)
+   [Screenshot 1](assets/screenshots/screenshot-1.png)
 2. Example of a Rive animation being added to a page.
-   ![Screenshot 2](assets/screenshots/screenshot-2.png)
+   [Screenshot 2](assets/screenshots/screenshot-2.png)
 3. Example of a Rive animation inside a page.
-   ![Screenshot 3](assets/screenshots/screenshot-3.png)
+   [Screenshot 3](assets/screenshots/screenshot-3.png)
 
 == Changelog ==
 = v1.0.0 =
