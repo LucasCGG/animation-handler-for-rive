@@ -79,6 +79,11 @@ function observeRiveAnimation(canvasId, riveOptions, viewport, threshold) {
 
     // Start observing the canvas
     observer.observe(riveCanvas);
+
+    // Add event listener for cleanup on page unload
+    window.addEventListener('beforeunload', () => {
+        riveInstance.cleanup();
+    });
 }
 
 // Expose the function globally for WordPress inline script compatibility
