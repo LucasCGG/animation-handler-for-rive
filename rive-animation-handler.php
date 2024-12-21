@@ -17,15 +17,11 @@ if ( ! defined( 'ABSPATH' ) ) {
 define( 'RIVE_PLUGIN_PATH', plugin_dir_path( __FILE__ ) );
 
 function rive_plugin_enqueue_scripts() {
-    // Enqueue Rive Web Library from local path
-    wp_enqueue_script('rive-web-library', plugins_url('assets/js/rive-web-library.js', __FILE__), array(), '1.0.0', true);
+    // Enqueue Rive Web Library from CDN
+    wp_enqueue_script('rive-web-library', 'https://unpkg.com/@rive-app/canvas@latest', array(), null, true);
 
     // Enqueue the custom Rive handler script
     wp_enqueue_script('rive-animation-handler', plugins_url('assets/js/rive-handler.js', __FILE__), [], '1.0.0', true);
-    wp_enqueue_script('rive-web', plugins_url('assets/js/rive-web.js', __FILE__), [], '1.0.0', true);
-    
-    // Enqueue the Canvas Library from local path
-    wp_enqueue_script('rive-js', plugins_url('assets/js/rive-js.js', __FILE__), array(), '1.0.0', true);
 }
 add_action('wp_enqueue_scripts', 'rive_plugin_enqueue_scripts');
 
