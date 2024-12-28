@@ -1,4 +1,4 @@
-=== Rive Animation Handler ===
+=== Animation Handler for Rive ===
 Contributors: LucasCGG
 Tags: rive, animation, elementor, canvas, intersectionobserver
 Requires PHP: 7.0
@@ -16,8 +16,8 @@ Rive Animation Handler is a WordPress plugin that enables you to add Rive animat
 
 == Installation ==
 
-1. Download the plugin from the [GitHub repository](https://github.com/LucasCGG/rive-animation-handler).
-2. Upload the `rive-animation-handler` directory to your `/wp-content/plugins` directory.
+1. Download the plugin from the [GitHub repository](https://github.com/LucasCGG/animation-handler-for-rive).
+2. Upload the `animation-handler-for-rive` directory to your `/wp-content/plugins` directory.
 3. Activate the plugin in the WordPress admin.
 4. Ensure Elementor is installed and activated. If not, you will see an admin notice prompting you to install and activate it.
 
