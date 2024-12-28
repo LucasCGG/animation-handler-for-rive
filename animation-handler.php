@@ -1,10 +1,10 @@
 <?php
 /**
- * Plugin Name: Rive Animation Handler
+ * Plugin Name: Animation Handler for Rive
  * Description: A plugin to handle Rive animations to start on enter viewport with Elementor
  * Version: 1.0.0
  * Author: Lucas Colaco
- * GitHub: https://github.com/LucasCGG/rive-animation-handler
+ * GitHub: https://github.com/LucasCGG/animation-handler-for-rive
  * License: MIT
  * License URI: https://opensource.org/licenses/MIT
  */
@@ -21,7 +21,7 @@ function rive_plugin_enqueue_scripts() {
     wp_enqueue_script('rive-web-library', 'https://unpkg.com/@rive-app/canvas@latest', array(), null, true);
 
     // Enqueue the custom Rive handler script
-    wp_enqueue_script('rive-animation-handler', plugins_url('assets/js/rive-handler.js', __FILE__), [], '1.0.0', true);
+    wp_enqueue_script('animation-handler-for-rive', plugins_url('assets/js/animation-handler.js', __FILE__), [], '1.0.0', true);
 }
 add_action('wp_enqueue_scripts', 'rive_plugin_enqueue_scripts');
 
@@ -52,7 +52,7 @@ function rive_check_elementor_loaded() {
 function rive_elementor_not_loaded_notice() {
     ?>
     <div class="notice notice-error">
-        <p><?php esc_html_e( 'Rive Animation Handler requires Elementor to be installed and activated.', 'rive-animation-handler' ); ?></p>
+        <p><?php esc_html_e( 'Animation Handler requires Elementor to be installed and activated.', 'animation-handler-for-rive' ); ?></p>
     </div>
     <?php
 }
