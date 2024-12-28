@@ -1,5 +1,5 @@
 /**
- * Rive Handler
+ * Animation Handler for Rive
  * Handles animations using Rive
  *
  * @documentation https://rive.app/community/doc
@@ -60,16 +60,16 @@ function observeRiveAnimation(canvasId, riveOptions, viewport, threshold) {
      * Compute and set the size of the canvas and drawing surface.
      */
     function computeSize() {
-        riveInstance.resizeDrawingSurfaceToCanvas(0);
+        Instance.resizeDrawingSurfaceToCanvas(0);
     }
 
     // Set up IntersectionObserver for viewport tracking
     const observer = new IntersectionObserver((entries) => {
         entries.forEach((entry) => {
             if (entry.isIntersecting) {
-                riveInstance.play(riveOptions.stateMachine);
+                Instance.play(Options.stateMachine);
             } else {
-                riveInstance.pause(riveOptions.stateMachine);
+                Instance.pause(Options.stateMachine);
             }
         });
     }, {
@@ -78,8 +78,8 @@ function observeRiveAnimation(canvasId, riveOptions, viewport, threshold) {
     });
 
     // Start observing the canvas
-    observer.observe(riveCanvas);
+    observer.observe(Canvas);
 }
 
 // Expose the function globally for WordPress inline script compatibility
-window.observeRiveAnimation = observeRiveAnimation;
+window.observeAnimation = observeRiveAnimation;
