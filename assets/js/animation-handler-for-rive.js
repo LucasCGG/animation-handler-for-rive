@@ -19,10 +19,10 @@
  */
 function observeRiveAnimation(canvasId, riveOptions, viewport, threshold) {
     const observerThreshold = threshold || riveOptions.threshold || 0.5;
-    const riveLayoutFit = riveOptions.layoutFit || 'contain';
-    const riveCanvas = document.getElementById(canvasId);
+    const layoutFit = riveOptions.layoutFit || 'contain';
+    const canvas = document.getElementById(canvasId);
 
-    if (!riveCanvas) {
+    if (!canvas) {
         console.error(`Canvas with ID '${canvasId}' not found.`);
         return;
     }
@@ -44,12 +44,12 @@ function observeRiveAnimation(canvasId, riveOptions, viewport, threshold) {
     }
 
     // Initialize Rive instance
-    const riveInstance = new rive.Rive({
+    const Instance = new rive.Rive({
         src: riveOptions.src,
-        canvas: riveCanvas,
+        canvas: canvas,
         autoplay: false, // Controlled by IntersectionObserver
         layout: new rive.Layout({
-            fit: rive.Fit[riveLayoutFit], // Allowed values: [Layout, Cover, Contain, Fill, FitWidth, FitHeight, None, ScaleDown] 
+            fit: rive.Fit[layoutFit], // Allowed values: [Layout, Cover, Contain, Fill, FitWidth, FitHeight, None, ScaleDown] 
         }),
         onLoad: () => {
             computeSize();
@@ -78,7 +78,7 @@ function observeRiveAnimation(canvasId, riveOptions, viewport, threshold) {
     });
 
     // Start observing the canvas
-    observer.observe(Canvas);
+    observer.observe(canvas);
 }
 
 // Expose the function globally for WordPress inline script compatibility
