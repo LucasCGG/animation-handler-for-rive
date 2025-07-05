@@ -1,85 +1,122 @@
 /**
- * Animation Handler for Rive
- * Handles animations using Rive
+ * Animation Handler for Rive (AHFR)
+ * Handles viewport-triggered Rive animations.
  *
  * @documentation https://rive.app/community/doc
  * @since 1.0.0
  */
 
-/**
- * Initialize and control a Rive Animation using an IntersectionObserver
- *
- * @param {string} canvasId - The ID of the canvas element where the Rive animation will be rendered.
- * @param {Object} riveOptions - Configuration options for the Rive animation.
- * @param {string} riveOptions.src - The full URL to the Rive animation file.
- * @param {string} riveOptions.stateMachine - The name of the state machine to control the animation.
- * @param {string} [riveOptions.layoutFit=contain] - The layout fit value for the Rive animation. Defaults to 'contain'. @documentation https://rive.app/community/doc/layout/docBl81zd1GB
- * @param {Object} [viewport] - The viewport object.
- * @param {number} [threshold=0.7] - The threshold value for the IntersectionObserver. Defaults to 0.7.
- */
-function observeRiveAnimation(canvasId, riveOptions, viewport, threshold) {
-    const observerThreshold = threshold || riveOptions.threshold || 0.5;
-    const layoutFit = riveOptions.layoutFit || 'contain';
-    const canvas = document.getElementById(canvasId);
+/* global rive */ // Provided by rive.min.js
 
-    if (!canvas) {
-        console.error(`Canvas with ID '${canvasId}' not found.`);
-        return;
-    }
+(function (w) {
+	'use strict';
 
-    // Validate required Rive options
-    if (!riveOptions) {
-        console.error('Invalid Rive options.');
-        return;
-    }
-
-    if(!riveOptions.src) {
-        console.error('Ensure src is provided.');
-        return;
-    }
-
-    if(!riveOptions.stateMachine) {
-        console.error('Ensure stateMachine is provided.');
-        return;
-    }
-
-    // Initialize Rive instance
-    const Instance = new rive.Rive({
-        src: riveOptions.src,
-        canvas: canvas,
-        autoplay: false, // Controlled by IntersectionObserver
-        layout: new rive.Layout({
-            fit: rive.Fit[layoutFit], // Allowed values: [Layout, Cover, Contain, Fill, FitWidth, FitHeight, None, ScaleDown] 
-        }),
-        onLoad: () => {
-            computeSize();
-        }
-    });
+	/** Top-level namespace — everything lives under window.ahfr */
+	const ns = (w.ahfr = w.ahfr || {});
 
 	/**
-     * Compute and set the size of the canvas and drawing surface.
-     */
-    function computeSize() {
-        Instance.resizeDrawingSurfaceToCanvas(0);
-    }
+	 * Create a single Intersection-observer-driven Rive instance.
+	 *
+	 * @param {Object} cfg - Configuration options for the Rive animation.
+	 * @param {string} cfg.canvasId - The ID of the canvas element where the Rive animation will be rendererd.
+	 * @param {string} cfg.src - Configuration options for the Rive animation.
+	 * @param {string} cfg.stateMachine - The name of the state machine to control the animation.
+	 * @param {number} [cfg.threshold=0.7] - The threshold value for the IntersectionObserver. Defaults to 0.7.
+	 * @param {string|null} [cfg.viewport=null]  - The viewport object
+	 * @param {string} [cfg.layoutFit='contain'] - The layout fit value for the Rive animation. Defaults to 'contain'. @documentation https://rive.app/community/doc/layout/docBl81zd1GB
+	 */
+	function initAnimation(cfg) {
+		const {
+			canvasId,
+			src,
+			stateMachine,
+			threshold = 0.7,
+			viewport = null,
+			layoutFit = 'contain',
+		} = cfg;
 
-    // Set up IntersectionObserver for viewport tracking
-    const observer = new IntersectionObserver((entries) => {
-        entries.forEach((entry) => {
-            if (entry.isIntersecting) {
-                Instance.play(Options.stateMachine);
-            } else {
-                Instance.pause(Options.stateMachine);
-            }
-        });
-    }, {
-        root: viewport,
-        threshold: observerThreshold,
-    });
+		const canvas = document.getElementById(canvasId);
+		
+		if (!canvas) {
+        	console.error(`Canvas with ID '${canvasId}' not found.`);
+			return;
+		}
 
-    // Start observing the canvas
-    observer.observe(canvas);
-}
+		if(!cfg)
+		{
+			console.error("Invalid Rive options.");
+			return;
+		}
 
-// Expose the function globally for WordPress inline script compatibility
-window.observeAnimation = observeRiveAnimation;
+		if (!src || !stateMachine) {
+			console.error('AHFR: “src” and “stateMachine” are required.');
+			return;
+		}
+
+		const fitEnum = rive.Fit[layoutFit] || rive.Fit.contain;
+
+		const instance = new rive.Rive({
+			src,
+			canvas,
+			autoplay: false,
+			layout: new rive.Layout({ fit: fitEnum }),
+			onLoad: resizeSurface,
+		});
+
+		function resizeSurface() {
+			instance.resizeDrawingSurfaceToCanvas();
+		}
+
+		w.addEventListener('resize', resizeSurface);
+
+		const rootElement =
+			viewport && typeof viewport === 'string'
+				? document.querySelector(viewport)
+				: null;
+
+		const observer = new IntersectionObserver(
+			(entries) => {
+				entries.forEach((entry) => {
+					if (entry.isIntersecting) {
+						instance.play(stateMachine);
+					} else {
+						instance.pause(stateMachine);
+					}
+				});
+			},
+			{
+				root: rootElement,
+				threshold: threshold,
+			}
+		);
+
+		observer.observe(canvas);
+	}
+
+	/**
+	 * Process any items already pushed by PHP and watch for new pushes.
+	 * PHP injects:  window.riveAnimations.push( { …config… } );
+	 */
+	function boot() {
+		if (!Array.isArray(w.riveAnimations)) {
+			return;
+		}
+
+		// Initialise existing configs.
+		w.riveAnimations.forEach(initAnimation);
+
+		// Monkey-patch push so later widgets initialise automatically.
+		const push = w.riveAnimations.push;
+		w.riveAnimations.push = function () {
+			Array.prototype.forEach.call(arguments, initAnimation);
+			return push.apply(this, arguments);
+		};
+	}
+
+	// Kick off after DOM ready.
+	if (document.readyState === 'loading') {
+		document.addEventListener('DOMContentLoaded', boot);
+	} else {
+		boot();
+	}
+})(window);
